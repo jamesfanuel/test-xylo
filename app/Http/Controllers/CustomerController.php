@@ -37,6 +37,7 @@ class CustomerController extends Controller
             $customers = DB::table('ms_customer')
             ->select(
             'ms_customer.id as customer_id' 
+            , 'ms_customer.agent_id' 
             , 'ms_customer.name'
             , 'ms_customer.phone'
             , 'ms_customer.email'
@@ -49,6 +50,7 @@ class CustomerController extends Controller
             $customers = DB::table('ms_customer')
             ->select(
             'ms_customer.id as customer_id' 
+            , 'ms_customer.agent_id'
             , 'ms_customer.name'
             , 'ms_customer.phone'
             , 'ms_customer.email'
@@ -59,7 +61,7 @@ class CustomerController extends Controller
             ->latest()
             ->paginate(5);
         }
-        $agents = User::role('Agent')->pluck('name', 'id');
+        $agents = User::role('Agent')->get();
         return view('customer.index',compact('customers','agents'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -115,7 +117,8 @@ class CustomerController extends Controller
             , 'created_at' => now()
             ]);
 
-        return response()->json(['success' => true]);
+        return redirect()->route('customer.index')
+            ->with('customer','Customer created successfully.');
     }
 
     /**

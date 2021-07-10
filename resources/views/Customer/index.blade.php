@@ -78,7 +78,12 @@
                     @endcan
                     @can('customer-assign')
                     {!! Form::Label('agents', 'Assign To:') !!}
-                    {!! Form::select('agents', $agents, ['class' => 'form-control assign-agent']) !!}
+                    <select class="js-states browser-default select2" name="agents" required id="agents">
+                    <option value="option_select" disabled selected>Select Agent</option>
+                    @foreach($agents as $agent)
+                        <option value="{{ $agent->id }}" @if($agent->id == $customer->agent_id) selected @endif>{{ $agent->name}}</option>
+                    @endforeach
+                    </select>
                     @endcan
                 </form>
 	        </td>
@@ -121,7 +126,7 @@
           dataType: 'json',
           success: function( result )
           {
-              
+              alert('status changed')
           }
        });
     });
@@ -141,9 +146,10 @@
           dataType: 'json',
           success: function( result )
           {
-              
+            location.reload()
           }
        });
+       location.reload()
     });
     </script>
 
