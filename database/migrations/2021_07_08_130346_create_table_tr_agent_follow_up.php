@@ -20,8 +20,8 @@ class CreateTableTrAgentFollowUp extends Migration
             $table->integer('status');
             $table->string('remarks');
             $table->timestamps();
-            $table->foreign('agent_id')->references('id')->on('users');
-            $table->foreign('customer_id')->references('id')->on('ms_customer');
+            $table->foreign('agent_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('ms_customer')->onDelete('cascade');
         });
     }
 
